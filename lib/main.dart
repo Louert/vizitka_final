@@ -41,8 +41,8 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
+        localizationsDelegates: [
+          S.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
@@ -99,6 +99,7 @@ class _AppState extends State<App> {
         ),
         theme: AppTheme.theme(_isDark),
         home: const HomePage(),
+        debugShowCheckedModeBanner: false,
       );
 }
 
@@ -111,9 +112,18 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 800, maxWidth: 800),
-          child: const Padding(
-            padding: EdgeInsets.all(14.0),
-            child: CVCard(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(14.0),
+                child: CVCard(),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(14.0),
+                child: AboutMeCard(),
+              ),
+            ],
           ),
         ),
       ),
@@ -160,7 +170,6 @@ class CVBack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO add any info you like
     return const Center(child: Text('Hello world!'));
   }
 }
@@ -268,6 +277,34 @@ class LinksWidget extends StatelessWidget {
         ),
         const Spacer(flex: 1),
       ],
+    );
+  }
+}
+
+class AboutMeCard extends StatelessWidget {
+  const AboutMeCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CVCardContainer(
+      front: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              S.of(context).aboutMe,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 12),
+            Text(
+              S.of(context).aboutMeText,
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
